@@ -2,300 +2,375 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>TalentFlow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentDNA PRO MAX</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
 
 body{
-    font-family:'Segoe UI';
-    display:flex;
-    background:#0f172a;
-    color:#fff;
+background:#0f172a;
+color:white;
+display:flex;
+height:100vh;
+overflow:hidden;
 }
 
-/* SIDEBAR */
+/* MENU */
 .sidebar{
-    width:230px;
-    background:#020617;
-    padding:20px;
+width:240px;
+background:#020617;
+padding:20px;
+overflow-y:auto;
 }
 
-.sidebar h2{
-    margin-bottom:20px;
-    color:#38bdf8;
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#38bdf8;
+margin-bottom:25px;
 }
 
 .sidebar button{
-    width:100%;
-    margin:6px 0;
-    padding:10px;
-    border:none;
-    background:#0f172a;
-    color:#fff;
-    border-radius:6px;
-    cursor:pointer;
+width:100%;
+padding:14px;
+margin-bottom:10px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
 }
 
 .sidebar button:hover{
-    background:#38bdf8;
-    color:#000;
+background:#38bdf8;
+color:black;
+transform:translateX(5px);
 }
 
-/* MAIN */
+.ifpb-btn{
+background:linear-gradient(135deg,#16a34a,#22c55e)!important;
+font-weight:bold;
+}
+
 .main{
-    flex:1;
-    padding:25px;
+flex:1;
+padding:25px;
+overflow-y:auto;
 }
 
-.section{display:none;}
-.active{display:block;}
+.page{
+display:none;
+}
 
-/* CARDS */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
+.active{
+display:block;
 }
 
 .card{
-    background:#1e293b;
-    padding:15px;
-    border-radius:12px;
-    margin-top:10px;
+background:#1e293b;
+padding:20px;
+border-radius:14px;
+margin-bottom:18px;
 }
 
-/* BOTÃO DELETE */
-.delete-btn{
-    background:#ef4444;
-    border:none;
-    padding:5px 10px;
-    color:white;
-    border-radius:5px;
-    cursor:pointer;
-    margin-top:5px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:15px;
 }
 
-/* INPUT */
-input,select{
-    width:100%;
-    padding:10px;
-    margin:5px 0;
-    border:none;
-    border-radius:5px;
+.big{
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
-button.action{
-    background:#38bdf8;
-    border:none;
-    padding:10px;
-    color:#000;
-    border-radius:6px;
-    cursor:pointer;
+input,select,textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+margin:8px 0;
+font-size:15px;
 }
 
-/* LOGIN */
+textarea{
+min-height:90px;
+resize:vertical;
+}
+
+.action{
+background:#38bdf8;
+color:black;
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+width:100%;
+}
+
+.delete{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px;
+border-radius:8px;
+width:100%;
+margin-top:10px;
+}
+
+.progress{
+width:100%;
+height:16px;
+background:#334155;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.bar{
+height:100%;
+width:60%;
+background:#38bdf8;
+}
+
+.tag{
+display:inline-block;
+padding:6px 12px;
+background:#38bdf8;
+color:black;
+border-radius:20px;
+margin-top:10px;
+}
+
+.info{
+padding:14px;
+border-radius:10px;
+background:#0f172a;
+margin-top:12px;
+line-height:1.6;
+}
+
 #login{
-    position:absolute;
-    width:100%;
-    height:100vh;
-    background:#020617;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+position:fixed;
+inset:0;
+background:#020617;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
 }
 
 .login-box{
-    background:#1e293b;
-    padding:30px;
-    border-radius:10px;
+width:340px;
+background:#1e293b;
+padding:30px;
+border-radius:15px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div id="login">
 <div class="login-box">
-<h2>TalentFlow</h2>
-<input id="user" placeholder="Seu nome">
+<div class="big">🧬 TalentDNA</div>
+<p>Descubra talentos e transforme em renda.</p>
+<input id="nome" placeholder="Seu nome">
 <button class="action" onclick="entrar()">Entrar</button>
 </div>
 </div>
 
-<!-- APP -->
-<div id="app" style="display:none;width:100%;">
-
 <div class="sidebar">
-<h2>🚀 TalentFlow</h2>
-<button onclick="show('dashboard')">Dashboard</button>
-<button onclick="show('talentos')">Talentos</button>
-<button onclick="show('detalhe')">Detalhes</button>
-<button onclick="show('metas')">Metas</button>
+<div class="logo">TalentDNA</div>
+
+<button onclick="abrir('inicio')">🏠 Início</button>
+<button onclick="abrir('talentos')">🎯 Talentos</button>
+<button onclick="abrir('perfil')">🧠 Perfil</button>
+<button onclick="abrir('metas')">📈 Metas</button>
+<button onclick="abrir('renda')">💰 Renda</button>
+<button onclick="abrir('missao')">⚡ Missão</button>
+<button class="ifpb-btn" onclick="abrir('ifpb')">🎓 Área Universitária IFPB</button>
 </div>
 
 <div class="main">
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-<h2>Visão Geral</h2>
-<div class="grid">
-<div class="card">💡 Explore talentos</div>
-<div class="card">📈 Acompanhe metas</div>
-<div class="card">💰 Gere renda</div>
+<div id="inicio" class="page active">
+<div class="card">
+<div class="big">Bem-vindo ao TalentDNA 👋</div>
+<p id="textoBoasVindas">Seu painel completo para crescer e monetizar talentos.</p>
 </div>
 </div>
 
-<!-- TALENTOS -->
-<div id="talentos" class="section">
-<h2>Escolha um talento</h2>
-<div class="grid">
-<div class="card" onclick="abrir('Desenho')">🎨 Desenho</div>
-<div class="card" onclick="abrir('Video')">🎬 Vídeo</div>
-<div class="card" onclick="abrir('Cozinha')">🍰 Cozinha</div>
-<div class="card" onclick="abrir('Escrita')">✍️ Escrita</div>
+<div id="talentos" class="page">
+<div class="card">
+<h3>➕ Adicionar Seu Talento</h3>
+<input id="novoTalento" placeholder="Ex: Fotografia">
+<button class="action" onclick="gerarTalento()">Gerar Ideia</button>
+<div id="resultadoTalento"></div>
 </div>
 </div>
 
-<!-- DETALHE -->
-<div id="detalhe" class="section">
-<h2 id="titulo"></h2>
-<p id="desc"></p>
-
-<h3>💰 Estratégia:</h3>
-<p id="ganho"></p>
-
-<h3>⚡ Primeira ação:</h3>
-<p id="acao"></p>
+<div id="perfil" class="page">
+<div class="card">
+<div class="big">🧠 Seu Perfil</div>
+<p id="nomePerfil">Usuário</p>
+<div class="tag">Criador Estratégico</div>
+<div class="progress"><div class="bar"></div></div>
+</div>
 </div>
 
-<!-- METAS -->
-<div id="metas" class="section">
-<h2>Planejamento</h2>
-
-<input id="metaTexto" placeholder="Meta">
+<div id="metas" class="page">
+<div class="card">
+<input id="metaTexto" placeholder="Digite a meta">
 <input type="date" id="metaData">
+<button class="action" onclick="salvarMeta()">Salvar Meta</button>
+</div>
+<div class="card">
+<div id="listaMetas"></div>
+</div>
+</div>
 
-<select id="metaMes">
-<option>Janeiro</option>
-<option>Fevereiro</option>
-<option>Março</option>
-<option>Abril</option>
-<option>Maio</option>
-<option>Junho</option>
-<option>Julho</option>
-<option>Agosto</option>
-<option>Setembro</option>
-<option>Outubro</option>
-<option>Novembro</option>
-<option>Dezembro</option>
+<div id="renda" class="page">
+<div class="card">
+<input type="number" id="valorMes" placeholder="Quanto quer ganhar por mês?">
+<button class="action" onclick="calcularRenda()">Calcular</button>
+<p id="resultadoRenda"></p>
+</div>
+</div>
+
+<div id="missao" class="page">
+<div class="card">
+<textarea id="objetivoMissao"></textarea>
+<button class="action" onclick="gerarMissao()">Gerar Missão</button>
+</div>
+<div class="card">
+<div id="textoMissao"></div>
+</div>
+</div>
+
+<!-- ÁREA IFPB -->
+<div id="ifpb" class="page">
+
+<div class="card">
+<div class="big">🎓 Área Universitária IFPB</div>
+<p>Confirmação exclusiva para estudantes.</p>
+</div>
+
+<div class="card">
+<input id="nomeAluno" placeholder="Seu nome completo">
+
+<select id="campusAluno">
+<option value="">Selecione seu campus</option>
+<option>IFPB Campus João Pessoa</option>
+<option>IFPB Campus Campina Grande</option>
+<option>IFPB Campus Cajazeiras</option>
+<option>IFPB Campus Patos</option>
+<option>IFPB Campus Itaporanga</option>
+<option>Outro Campus</option>
 </select>
 
-<button class="action" onclick="salvar()">Salvar</button>
+<button class="action" onclick="validarIFPB()">Continuar Verificação</button>
 
-<h3>Metas</h3>
-<div id="lista"></div>
+<div id="resultadoIFPB" class="info">
+Preencha os dados para acessar o SUAP.
+</div>
 </div>
 
 </div>
+
 </div>
 
 <script>
-
-// LOGIN
 function entrar(){
-if(user.value){
-login.style.display="none";
-app.style.display="flex";
+let nome=document.getElementById("nome").value;
+if(nome.trim()!=""){
+document.getElementById("login").style.display="none";
+document.getElementById("nomePerfil").innerText=nome;
+document.getElementById("textoBoasVindas").innerText=nome+", seu painel completo para crescer.";
 }
 }
 
-// NAVEGAÇÃO
-function show(id){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+function abrir(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-// TALENTOS
-function abrir(nome){
-
-let dados={
-"Desenho":{
-desc:"Criar artes visuais.",
-ganho:"Venda artes online.",
-acao:"Poste 3 artes hoje."
-},
-"Video":{
-desc:"Editar vídeos.",
-ganho:"Atenda criadores.",
-acao:"Edite 1 vídeo simples."
-},
-"Cozinha":{
-desc:"Produzir alimentos.",
-ganho:"Venda doces.",
-acao:"Faça 5 brigadeiros."
-},
-"Escrita":{
-desc:"Criar textos.",
-ganho:"Venda conteúdo.",
-acao:"Escreva 1 post."
-}
-};
-
-titulo.innerText=nome;
-desc.innerText=dados[nome].desc;
-ganho.innerText=dados[nome].ganho;
-acao.innerText=dados[nome].acao;
-
-show("detalhe");
+function gerarTalento(){
+let t=document.getElementById("novoTalento").value;
+document.getElementById("resultadoTalento").innerHTML="💡 Use "+t+" para vender serviços.";
 }
 
-// METAS
-function salvar(){
+function salvarMeta(){
+let texto=document.getElementById("metaTexto").value;
+let data=document.getElementById("metaData").value;
 
 let metas=JSON.parse(localStorage.getItem("metas"))||[];
-
-metas.push({
-texto:metaTexto.value,
-data:metaData.value,
-mes:metaMes.value
-});
-
+metas.push({texto,data});
 localStorage.setItem("metas",JSON.stringify(metas));
-
-render();
+renderMetas();
 }
 
-// APAGAR META
-function apagar(index){
-
-let metas=JSON.parse(localStorage.getItem("metas"))||[];
-
-metas.splice(index,1);
-
-localStorage.setItem("metas",JSON.stringify(metas));
-
-render();
-}
-
-// RENDER
-function render(){
-let metas=JSON.parse(localStorage.getItem("metas"))||[];
+function renderMetas(){
+let lista=document.getElementById("listaMetas");
 lista.innerHTML="";
+let metas=JSON.parse(localStorage.getItem("metas"))||[];
 
 metas.forEach((m,i)=>{
 lista.innerHTML+=`
 <div class="card">
-<strong>${m.texto}</strong><br>
-${m.data} - ${m.mes}<br>
-<button class="delete-btn" onclick="apagar(${i})">🗑 Apagar</button>
+${m.texto}<br>${m.data}
+<button class="delete" onclick="apagarMeta(${i})">Apagar</button>
 </div>`;
 });
 }
+renderMetas();
 
-render();
+function apagarMeta(i){
+let metas=JSON.parse(localStorage.getItem("metas"))||[];
+metas.splice(i,1);
+localStorage.setItem("metas",JSON.stringify(metas));
+renderMetas();
+}
 
+function calcularRenda(){
+let v=Number(document.getElementById("valorMes").value);
+document.getElementById("resultadoRenda").innerHTML="R$ "+(v/30).toFixed(2)+" por dia.";
+}
+
+function gerarMissao(){
+let t=document.getElementById("objetivoMissao").value;
+document.getElementById("textoMissao").innerHTML="Missão: agir hoje em "+t;
+}
+
+/* FUNÇÃO CORRIGIDA */
+function validarIFPB(){
+
+let nome=document.getElementById("nomeAluno").value.trim();
+let campus=document.getElementById("campusAluno").value;
+
+if(nome=="" || campus==""){
+document.getElementById("resultadoIFPB").innerHTML="⚠️ Preencha nome e campus.";
+return;
+}
+
+document.getElementById("resultadoIFPB").innerHTML=
+"✅ Verificação iniciada para <strong>"+nome+
+"</strong>.<br>Abrindo SUAP oficial...";
+
+/* ABRE DIRETO NO CLIQUE */
+window.location.href="https://suap.ifpb.edu.br/accounts/login/";
+
+}
 </script>
 
 </body>
