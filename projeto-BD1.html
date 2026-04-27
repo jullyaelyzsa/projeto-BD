@@ -100,11 +100,16 @@ width:300px;
 <body>
 
 <div id="login">
-<div class="login-box">
-<div class="big">🧬 TalentDNA</div>
-<input id="nome" placeholder="Seu nome">
-<button class="action" onclick="entrar()">Entrar</button>
-</div>
+  <div class="login-box">
+    <div class="big">🧬 TalentDNA</div>
+
+    <input id="nome" placeholder="Seu nome">
+    <input id="email" type="email" placeholder="Seu email">
+    <input id="senha" type="password" placeholder="Sua senha">
+
+    <button class="action" onclick="cadastrar()">Cadastrar</button>
+    <button class="action" onclick="logar()">Entrar</button>
+  </div>
 </div>
 
 <div class="sidebar">
@@ -176,18 +181,57 @@ window.open("https://suap.ifpb.edu.br/accounts/login/","_blank");
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyA5N7FNBWVmaYoB6kPH4ZiRbaP4CUF3UEM",
-    authDomain: "talento-6ff26.firebaseapp.com",
-    projectId: "talento-6ff26",
-    storageBucket: "talento-6ff26.firebasestorage.app",
-    messagingSenderId: "708712505980",
-    appId: "1:708712505980:web:01daf9b36ec6d2f6bd5ff9"
-  };
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA5N7FNBWVmaYoB6kPH4ZiRbaP4CUF3UEM",
+  authDomain: "talento-6ff26.firebaseapp.com",
+  projectId: "talento-6ff26",
+  storageBucket: "talento-6ff26.firebasestorage.app",
+  messagingSenderId: "708712505980",
+  appId: "1:708712505980:web:01daf9b36ec6d2f6bd5ff9"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "SUA_CHAVE",
+  authDomain: "SEU_DOMINIO",
+  projectId: "SEU_ID",
+  appId: "SEU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.cadastrar = async function(){
+  let email = document.getElementById("email").value;
+  let senha = document.getElementById("senha").value;
+
+  await createUserWithEmailAndPassword(auth, email, senha);
+  alert("Conta criada!");
+}
+
+window.logar = async function(){
+  let email = document.getElementById("email").value;
+  let senha = document.getElementById("senha").value;
+
+  await signInWithEmailAndPassword(auth, email, senha);
+  document.getElementById("login").style.display="none";
+  alert("Entrou!");
+}
 </script>
 </body>
 </html>
