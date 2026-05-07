@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starty | Transforme Talento em Lucro</title>
+    
+    <!-- Ícones e Fontes -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #22d3ee;
+            --secondary: #818cf8;
+            --accent: #4ade80;
+            --bg: #020617;
+            --glass: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: var(--bg);
+            background-image: radial-gradient(circle at 0% 0%, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
+                              radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.1) 0%, transparent 50%);
+            color: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* --- LOGIN --- */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-main {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--primary); outline: none; }
+
+        .btn-action {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: #020617;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-action:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 10px 20px -5px rgba(34, 211, 238, 0.4); }
+
+        /* --- DASHBOARD --- */
+        .sidebar {
+            width: 280px;
+            background: rgba(2, 6, 23, 0.95);
+            padding: 30px 20px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 14px 18px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .content { flex: 1; padding: 40px; overflow-y: auto; }
+
+        .view { display: none; animation: slideUp 0.5s ease-out forwards; }
+        .view.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- CARDS & INTERATIVIDADE --- */
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .card:hover { border-color: rgba(34, 211, 238, 0.4); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+        /* Barra de Progresso */
+        .progress-container { background: rgba(0,0,0,0.3); height: 12px; border-radius: 20px; margin-top: 15px; overflow: hidden; }
+        .progress-bar { 
+            height: 100%; 
+            width: 35%; 
+            background: linear-gradient(to right, var(--primary), var(--accent)); 
+            border-radius: 20px;
+            transition: 1s ease-in-out;
+        }
+
+        /* Dna Scan Button */
+        .dna-scan-btn {
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px dashed var(--primary);
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .dna-scan-btn:hover { background: rgba(34, 211, 238, 0.15); }
+
+        /* Insight do Dia */
+        .insight-pill {
+            background: rgba(129, 140, 248, 0.1);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .talent-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .talent-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .talent-item:hover { background: var(--primary); color: #020617; }
+
+        .help-box {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 6px solid var(--secondary);
+            display: none;
+        }
+
+        #loading-suap { display: none; margin-top: 15px; color: var(--primary); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay">
+    <div class="login-card">
+        <div class="logo-main">Starty</div>
+        <input type="text" id="user-name" placeholder="Como quer ser chamado?">
+        <input type="password" placeholder="Senha de Acesso">
+        <button class="btn-action" onclick="fazerLogin()">INICIAR MINHA JORNADA</button>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo-main" style="font-size: 1.8rem; margin-bottom: 40px; padding-left: 10px;">Starty</div>
+    <div class="nav-item active" onclick="mudarPagina('painel', this)">
+        <i class="ph ph-rocket-launch"></i> Painel Starty
+    </div>
+    <div class="nav-item" onclick="mudarPagina('catalogo', this)">
+        <i class="ph ph-dna"></i> Catálogo de DNA
+    </div>
+    <div class="nav-item" onclick="mudarPagina('monetizar', this)">
+        <i class="ph ph-currency-circle-dollar"></i> Plano de Lucro
+    </div>
+    <div class="nav-item" onclick="mudarPagina('ifpb', this)">
+        <i class="ph ph-student"></i> Portal IFPB
+    </div>
+    <div class="nav-item" style="margin-top: auto; color: #f87171;" onclick="location.reload()">
+        <i class="ph ph-sign-out"></i> Sair
+    </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="content">
+
+    <!-- VIEW: PAINEL (EXPANDIDA) -->
+    <div id="painel" class="view active">
+        <div class="insight-pill">
+            <i class="ph ph-sparkle"></i> Insight do dia: "A constância vence o talento não treinado."
+        </div>
+        
+        <h1 style="font-size: 2.5rem; margin-bottom: 10px;">E aí, <span id="display-name" style="color: var(--primary);">Visionário</span>!</h1>
+        <p style="color: #94a3b8; margin-bottom: 40px;">Seu ecossistema Starty está pronto para a decolagem.</p>
+
+        <div class="grid">
+            <!-- Card de Progresso de Monetização -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: #94a3b8;">Sua Evolução</h3>
+                    <i class="ph ph-trend-up" style="color: var(--accent); font-size: 1.5rem;"></i>
+                </div>
+                <h2 style="font-size: 2rem; margin: 15px 0;">35% <span style="font-size: 1rem; color: #64748b;">da Meta</span></h2>
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 15px; color: #64748b;">Próximo passo: Validar seu primeiro micro-talento.</p>
+            </div>
+
+            <!-- Card de Escaneamento de DNA -->
+            <div class="dna-scan-btn" onclick="simularScan()">
+                <i class="ph ph-fingerprint" style="font-size: 3rem; color: var(--primary); margin-bottom: 10px;"></i>
+                <h3>Escanear DNA</h3>
+                <p style="font-size: 0.8rem; color: #64748b;">Toque para analisar novas habilidades</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 25px; background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), transparent);">
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <div style="background: var(--primary); color: #020617; padding: 15px; border-radius: 15px;">
+                    <i class="ph ph-lightning" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h3>Aceleração Ativa</h3>
+                    <p style="color: #94a3b8;">Você tem 3 novos planos de lucro sugeridos baseados no seu perfil do IFPB.</p>
+                </div>
+                <button class="btn-action" style="width: auto; margin: 0; padding: 10px 20px;" onclick="mudarPagina('monetizar', document.querySelectorAll('.nav-item')[2])">VER AGORA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW: CATALOGO -->
+    <div id="catalogo" class="view">
+        <h2>🧬 Catálogo de DNA & Talentos</h2>
+        <p style="color: #94a3b8;">Clique em um talento para ver o plano de ação ou adicione o seu.</p>
+        <div class="talent-list">
+            <div class="talent-item" onclick="mostrarAjuda('Comunicação', 'Crie um Podcast, torne-se um mestre em Vendas High Ticket ou faça Consultoria de Oratória.')">Comunicação Assertiva</div>
+            <div class="talent-item" onclick="mostrarAjuda('Programação', 'Desenvolva Micro-SaaS, preste freelas para o exterior (em dólar) ou crie bots de automação.')">Lógica de Programação</div>
+            <div class="talent-item" onclick="mostrarAjuda('Organização', 'Trabalhe como Gestor de Projetos, Personal Organizer Digital ou Consultor de Processos.')">Organização Extrema</div>
+            <div class="talent-item" onclick="mostrarAjuda('Ouvir Pessoas', 'Torne-se um Mentor, Coach de Performance ou Consultor de Experiência do Cliente.')">Escuta Empática</div>
+            <div class="talent-item" onclick="mostrarAjuda('Gamificação', 'Ajude empresas a criarem sistemas de recompensas ou gamifique treinamentos corporativos.')">Design de Jogos/Vida</div>
+            <div class="talent-item" onclick="mostrarAjuda('Curadoria', 'Crie newsletters pagas, canais de indicação de produtos ou filtragem de informações premium.')">Curadoria de Conteúdo</div>
+        </div>
+        <div class="card" style="margin-top: 30px;">
+            <h3>Não achou seu talento?</h3>
+            <input type="text" id="talento-custom" placeholder="Ex: Eu sei cozinhar muito rápido...">
+            <button class="btn-action" onclick="gerarTalentoCustom()">GERAR PLANO AGORA</button>
+        </div>
+        <div id="ajuda-display" class="help-box">
+            <h3 id="ajuda-titulo" style="color: var(--primary);"></h3>
+            <p id="ajuda-texto"></p>
+        </div>
+    </div>
+
+    <!-- VIEW: MONETIZAR -->
+    <div id="monetizar" class="view">
+        <h2 style="margin-bottom: 25px;">Onde está o dinheiro no seu talento?</h2>
+        <div class="grid">
+            <div class="card" style="border-left: 4px solid var(--primary);">
+                <h3>Venda de Especialidade</h3>
+                <p style="color: var(--accent); font-weight: 800;">Potencial: R$ 5k/mês</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--secondary);">
+                <h3>Starty Lab (Projetos)</h3>
+                <p style="color: var(--accent); font-weight: 800;">ROI: Rápido</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW: IFPB -->
+    <div id="ifpb" class="view">
+        <div class="card" style="max-width: 500px;">
+            <h2>Integração Starty + SUAP</h2>
+            <select id="campus">
+                <option>IFPB Itaporanga</option>
+                <option>IFPB João Pessoa</option>
+                <option>IFPB Campina Grande</option>
+            </select>
+            <button class="btn-action" onclick="acessarSuap()">SINCRONIZAR COM SUAP</button>
+            <div id="loading-suap">Conectando...</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function fazerLogin() {
+        const nome = document.getElementById('user-name').value;
+        if(nome.length < 3) return alert("Insira seu nome!");
+        document.getElementById('display-name').innerText = nome;
+        document.getElementById('login-overlay').style.display = 'none';
+    }
+
+    function mudarPagina(id, el) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        el.classList.add('active');
+    }
+
+    function mostrarAjuda(titulo, texto) {
+        const box = document.getElementById('ajuda-display');
+        document.getElementById('ajuda-titulo').innerText = "Plano: " + titulo;
+        document.getElementById('ajuda-texto').innerText = texto;
+        box.style.display = 'block';
+    }
+
+    function gerarTalentoCustom() {
+        const input = document.getElementById('talento-custom').value;
+        if(!input) return alert("Digite algo!");
+        mostrarAjuda(input, "Analisamos seu DNA: Comece criando conteúdo sobre isso no TikTok e ofereça mentorias de 1h por R$ 50,00 para validar.");
+    }
+
+    function simularScan() {
+        const btn = document.querySelector('.dna-scan-btn');
+        btn.innerHTML = '<i class="ph ph-circle-notch" style="font-size: 3rem; color: var(--primary); animation: spin 1s linear infinite;"></i><h3>Analisando DNA...</h3>';
+        setTimeout(() => {
+            alert("Análise completa! 2 novos talentos encontrados: 'Gestão de Crise' e 'Curadoria de IA'. Confira no seu catálogo!");
+            btn.innerHTML = '<i class="ph ph-fingerprint" style="font-size: 3rem; color: var(--primary); margin-bottom: 10px;"></i><h3>Escanear DNA</h3><p style="font-size: 0.8rem; color: #64748b;">Toque para analisar novas habilidades</p>';
+        }, 2000);
+    }
+
+    function acessarSuap() {
+        document.getElementById('loading-suap').style.display = 'block';
+        setTimeout(() => {
+            window.open('https://suap.ifpb.edu.br/', '_blank');
+            document.getElementById('loading-suap').style.display = 'none';
+        }, 1500);
+    }
+</script>
+
+<style>
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+
+</body>
+</html>
